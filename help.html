@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="/GenOneDamo.github.io/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex Tracker - Help</title>
+  </head>
+  <body>
+    <h1>Hex Tracker Help</h1>
+    
+    <div class="collapsible" onclick="Show('intro')">Basics</div>
+    <div id="intro" class="content">
+      <p>
+        This tracker is still under development, especially the setup and help sections. It is designed to be highly customisable and responsive. By clicking a Pokémon it will be marked and you can track your progress. There are also search features and helpful commands.
+      </p>
+      <p>
+        If you have found any bugs, or have any feature requests then please email <a href="mailto:GenOneDamo@gmail.com">GenOneDamo@gmail.com</a> and I will see what I can do. There are further tracker modes planned and will be released as I have time.
+      </p>
+    </div>
+
+    <div class="collapsible" onclick="Show('common')">Common Features</div>
+    <div id="common" class="content">
+      <p>
+        Every tracker mode will work slightly differently. But there is features available to all. Left or right clicking on a Pokémon will change its color. As you move the cursor over an individual Pokémon
+      </p>
+      <p>
+        you will notice that it is slightly highlighted. Its name will also appear underneath it. Both of these features can be turned off in settings.
+      </p>
+      <p>
+        Beginning to type a Pokémon's name will filter the Pokémon that are visible. If you are filtering then you will only be able to click Pokémon that match what you are typing. Pressing the Backspace or Delete key will act as the Backspace key normally does and removes 1 letter from what you are filtering by. Pressing Esc or Enter will remove it entirety.
+      </p>
+      <p>
+        If you press enter then you will also attempt to run a command. E.g. if you type seed then press Enter you will run the seed command.
+      </p>
+    </div>
+
+    <div class="collapsible" onclick="Show('comands')">Comands</div>
+    <div id="comands" class="content">
+      <p>
+        To run a command simply type the word and press enter. The Pokémon  will filter but you can ignore this. The commands that you can run are:
+      </p>
+      <h3>seed</h3>
+      <p>
+        This will popup the RNG seed, so that you can share this and have the same layout as someone else. If you just share the RNG seed you will need to make sure you have the same Pokémon and map as the other person. You can change the other settings though.
+      </p>
+      <h3>settings</h3>
+      <p>
+        This will copy to the clipboard and popup the settings. This can be shared with someone else so that you can both have the exact same settings. Note that on some browsers you will not be able to view all of the settings. It will be copied to your clipboard though.
+      </p>
+      <h3>help</h3>
+      <p>
+        Opens this page
+      </p>
+      <h3>back</h3>
+      <p>
+        Goes back to settings so you can reconfigure things. Note that this will reset everything being tracked if you make a change to the map.
+      </p>
+      <h3>refresh</h3>
+      <p>
+        This command should not be needed, but may by useful for some old browsers. This will cause the tracker to be redrawn after resizing the window. This should happen automatically though.
+      </p>
+    </div>
+    
+    <div class="collapsible" onclick="Show('basic')">Basic Tracker</div>
+    <div id="basic" class="content">
+      <p>
+        The basic tracker is very simple. All Pokémon will start at the base color you selected. There is a list of other colors, left clicking will change the color to one up the list and right clicking will change the color to one down.
+      </p>
+    </div>
+
+    <div class="collapsible" onclick="Show('zombie')">Zombie Tracker</div>
+    <div id="zombie" class="content">
+    <p>
+      The zombie tracker is a little more complex. All Pokémon will still start at the base color, but will respond differently to being clicked.
+    </p>
+    <p>
+      Left clicking a  Pokémon will change it to the color of one of the breakouts, and will automatically change the color of all surrounding Pokémon to the Infectable color. 
+    </p>
+    <p>
+      Continuing to left click Pokemon will set them to the color of a breakout it touches one, or a new breakout color if it does not. If you wish all breakouts to be 1 color, then remove all but one from the list of Breakout colors.
+    </p>
+    <p>
+      If you left click a Pokémon that is already part of a breakout then it will set it back to the base color / infectable color as appropriate.
+    </p>
+    <p>
+      If a multiple breakouts combine, or split up then the tracker will respond as appropriate
+    </p>
+    <p>
+      Warning, if you have multiple breakout colors, then you have more breakouts than colors behaviours can be imperfect.
+    </p>
+    <p>
+      Right clicking a Pokémon will set it on and off the special right click color. You can not do this for Pokémon that are part of a breakout.
+    </p>
+    <p>
+      In the settings you will also have the option to show statistics (as well as the option to control the location and color of the text). This will display the number of Pokémon that are infected, susceptible, and safe.
+    </p>
+    </div>
+    
+    <div class="collapsible" onclick="Show('connect4')">Connect 4</div>
+    <div id="connect4" class="content">
+      <p>
+        This mode is a mixture of Pachinko and Connect 4. It must be played by two players (or two teams, etc.), which will make their moves using the left and right clicks respectively. When a click is made the Pokémon will bounce down the tracker until it reaches the bottom.
+      </p>
+      <p>
+        The Pokémon can take a while to fall, so if you click a second, while the first is still falling it will wait until the first has fallen to start falling itself. All clicks to already selected Pokémon will be ignored.
+      </p>
+      <p>  
+        It can be played on two different computers at once, as long as the same moves are made in the same order. There is another RNG seed in the tracker type setup to ensure they fall the same way on any machine.
+      </p>
+      <p>  
+        In the case of a mistake holding the shift key and pressing Backspace or Delete. This will undo the last move made. There is also the custom command "moves" that can be used to check the list of moves that have been made. This can be useful to ensure the moves were made in the same order on both machines.
+      </p>
+      <p>  
+        Also note that the tracker will not stop when 4 in a row has been reached, it will allow you to continue as long as you would like to so you can play any variation you would like too.
+      </p>
+    </div>
+
+    <div class="collapsible" onclick="Show('dommino')">Domminos</div>
+    <div id="dommino" class="content">
+      <p>
+        In the domino mode the next Pokémon clicked must always share a type with the previous one. The Pokémon that can be clicked (both already selected and not) will be a slightly different color, and you will only be able to select those.
+      </p>
+      <p>
+      The last Pokémon clicked, along with their types will also (optionally) be displayed. It will also be marked in a different color temporarily.
+      </p>
+      <p>
+      As you may have to remark Pokémon to reach others clicking a Pokémon a second time just makes it the last clicked one. If you need to undo a click just hold the shift key and press BackSpace.
+      </p>
+      <p>
+      The right click may be used to mark, and unmark for other purposes. This will only work on non selected Pokémon.
+      </p>
+    </div>
+
+    <div class="collapsible" onclick="Show('settings')">Setup</div>
+    <div id="settings" class="content">
+      <p>
+        The setup itself should be reasonably shelf explanatory. It is important to note that it can be shared though. When you first load the page you will be given the option of creating a new tacker or loading ones from settings.
+      </p>
+      <p>
+        If you create a new tracker, at the end the settings will be displayed. These can be copied or saved. These can be pasted into the load settings option.
+      </p>
+      <p>
+        If you have already started the tracker simply type “settings” and press enter to run the settings command and get the string.</p>
+    </div>
+
+    <div class="collapsible" onclick="Show('classic')">Old Tracker</div>
+    <div id="classic" class="content">
+      <p>If you would prefer to use the old tracker then you can find it <a href="classic.html">here</a></p>
+    </div>
+
+  </body>
+</html>
+
+<style>
+  h1 {
+    text-align: center;
+  }
+
+  .collapsible {
+    width: 100%;
+    background-color: #bbbbbb;
+    margin: 10px;
+    padding: 5px;
+  }
+
+  .collapsible:hover {
+    background-color: #999999;
+  }
+
+  .content {
+    display: none;
+    margin: 20px;
+  }
+
+  #intro {
+    display: block;
+  }
+</style>
+
+<script>
+  function Show(id)
+  {
+    Array.from(document.getElementsByClassName('content')).forEach(item =>
+      item.style.display = "none"
+    )
+    document.getElementById(id).style.display = "block"
+  }
+</script>
