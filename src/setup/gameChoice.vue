@@ -39,6 +39,7 @@ export default defineComponent({
             else if (game == "connect4") {
                 this.settings.graphics.colors = ['#ffffff', '#ff0000', '#0000ff']
                 this.settings.trackerSettings = Random.NewSeedString();
+                this.SeedCheck();
             }
             else if (game == "domino") {
                 this.settings.graphics.colors = ['#ffffff', '#ffff99', '#ff0000', '#0000ff', '#0030b7', '#ffff00']
@@ -100,8 +101,11 @@ export default defineComponent({
         },
         RefreshSeed() {
             this.settings.trackerSettings = Random.NewSeedString();
+            this.SeedCheck();
         },
         SeedCheck() {
+            console.log(this.settings.trackerSettings)
+            console.log(Random.CheckSeed(this.settings.trackerSettings))
             this.seedValid = Random.CheckSeed(this.settings.trackerSettings);
         }
     }
