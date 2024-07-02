@@ -6,23 +6,26 @@ export default class RandomNumbeGenerator{
     d: number;
     seed: string
 
-   constructor (seed: string | null)
-    {  
-        if (seed == null || seed.length != 40)
-        {
-            this.a = Math.floor(Math.random() * 4294967296);
-            this.b = Math.floor(Math.random() * 4294967296);
-            this.c = Math.floor(Math.random() * 4294967296);
-            this.d = Math.floor(Math.random() * 4294967296);
-            this.seed = RandomNumbeGenerator.CreateSeedString(this.a,this.b,this.c,this.d)
-            return;
-        }
-
-        this.a = parseInt(seed!.substr(0, 10));
-        this.b = parseInt(seed!.substr(10, 10));
-        this.c = parseInt(seed!.substr(20, 10));
-        this.d = parseInt(seed!.substr(30, 10));
+   constructor (seed: string)
+   {
+        this.a = parseInt(seed.substring(0, 10));
+        this.b = parseInt(seed.substring(10, 30));
+        this.c = parseInt(seed.substring(20, 40));
+        this.d = parseInt(seed.substring(30));
         this.seed = seed;
+    }
+
+    Reseed(seed: string)
+    {
+        this.a = parseInt(seed.substring(0, 10));
+        this.b = parseInt(seed.substring(10, 30));
+        this.c = parseInt(seed.substring(20, 40));
+        this.d = parseInt(seed.substring(30));
+    }
+
+    CurrentSeed()
+    {
+        return RandomNumbeGenerator.CreateSeedString(this.a, this.b, this.c, this.d);
     }
 
     static CreateSeedString(a : number, b : number, c : number, d : number) {
@@ -34,8 +37,12 @@ export default class RandomNumbeGenerator{
         return RandomNumbeGenerator.CreateSeedString(Math.floor(Math.random() * 4294967296),Math.floor(Math.random() * 4294967296),Math.floor(Math.random() * 4294967296),Math.floor(Math.random() * 4294967296))
     }
 
-    static CheckSeed(seed: string)
+    static CheckSeed(seed: string | null)
     {
+        if (seed == null)
+        {
+            return false;
+        }
         let pattern = /^(([0-3]\d{9})|(4[0-1]\d{8})|(42[0-8]\d{7})|(429[0-3]\d{6})|(4294[0-8]\d{5})|(42949[0-5]\d{4})|(429496[0-6]\d{3})|(4294967[0-1]\d{2})|(42949672[0-8]\d})|(429496729[0-5])){4}$/
         return seed.match(pattern) != null
     }

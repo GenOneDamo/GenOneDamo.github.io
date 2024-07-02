@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { defineComponent, inject } from 'vue'
+  import { defineComponent, type PropType } from 'vue'
   import {HexInfo} from './../Types'
   import type {GraphicsInfo} from './../Types'
 
@@ -7,13 +7,16 @@
     data() {
       return {
         hover: false,
-        changed: false,
-        graphicsInfo: inject('graphicsInfo') as GraphicsInfo,
+        changed: false
       }
     },
     props: {
       hexInfo: {
         type: HexInfo,
+        required: true
+      },
+      graphicsInfo: {
+        type: Object as PropType<GraphicsInfo>,
         required: true
       }
     },

@@ -23,6 +23,12 @@ export default defineComponent({
         }
         else if (event.key == 'Backspace' || event.key == 'Delete')
         {
+            if (event.shiftKey)
+            {
+                this.$emit('undo');
+                return;
+            }
+
             this.searchString = this.searchString.slice(0, -1);
             if ( this.searchString == ''){
                 return this.resetHidden()
@@ -47,21 +53,29 @@ export default defineComponent({
         {
             this.$emit('search-seed');
         }
-        if (this.searchString == "refresh")
+        else if (this.searchString == "refresh")
         {
             this.$emit('refresh');
         }
-        if (this.searchString == "settings")
+        else if (this.searchString == "settings")
         {
             this.$emit('settings');
         }
-        if (this.searchString == "help")
+        else if (this.searchString == "help")
         {
             this.$emit('help');
         }
-        if (this.searchString == "back")
+        else if (this.searchString == "back")
         {
             this.$emit('back');
+        }
+        else if (this.searchString == "moves")
+        {
+            this.$emit('moves');
+        }
+        else if (this.searchString == "cheat")
+        {
+            this.$emit('cheat');
         }
     },
     resetHidden()

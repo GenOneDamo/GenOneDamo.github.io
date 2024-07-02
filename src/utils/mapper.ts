@@ -1,4 +1,6 @@
-import type {Point, LocationInfo} from './../Types'
+import type {Point, LocationInfo, HexInfo, GraphicsInfo} from './../Types'
+import Geomerty from './geometry'
+import RNG from './randomNumbeGenerator'
 
 export default class Mapper{
 
@@ -127,6 +129,88 @@ export default class Mapper{
         return points
     }
 
+    static GetRandomMap(type: number, seed: string, maxPoints: number)
+    {
+        if (type == 1)
+        {
+            return this.GetRandomType1Map(seed, maxPoints);
+        }
+        if (type == 2)
+        {
+            return this.GetRandomType2Map(seed, maxPoints);
+        }
+        return [] as Point[]
+    }
+
+    static GetRandomType1Map( seed: string, maxPoints: number){
+        let random = new RNG(seed);
+        let map = [{x:0, y:0}];
+        let neigbours = [] as Point[];
+        Geomerty.directions.forEach(n => neigbours.push(n));
+        while(map.length < maxPoints){     
+            let newPoint = neigbours.splice(random.Generate(neigbours.length),1)[0]
+            
+            map.push(newPoint)
+
+            Geomerty.directions.forEach(direction => {
+                let potential = {x: newPoint.x + direction.x, y: newPoint.y + direction.y}
+
+                let duplicate = map.filter(mapped => mapped.x == potential.x && mapped.y == potential.y)
+
+                if (duplicate.length == 0)
+                {
+                    duplicate = neigbours.filter(mapped => mapped.x == potential.x && mapped.y == potential.y)
+                }
+                
+                if (duplicate.length == 0)
+                {
+                    neigbours.push(potential)
+                }
+            })
+        }
+
+        return map;
+    }
+
+    static GetRandomType2Map( seed: string, maxPoints: number){
+        let random = new RNG(seed);
+        let map = [{x:0, y:0}];
+        let neigbours = [] as Point[];
+        this.AddPoint({x:0, y:0},map,neigbours,maxPoints)
+        
+        while(map.length < maxPoints)
+        {
+            let index = random.Generate(neigbours.length)
+            let newPoint = neigbours.splice(index,1)[0]
+            this.AddPoint(newPoint,map,neigbours,maxPoints)
+        }
+
+        return map;
+
+    }
+
+    static AddPoint(point: Point, map: Point[], unRan: Point[], max: number){
+        
+        for (let i = 0; i < 6; i++)
+        {
+            let newPoint = {x: point.x + Geomerty.directions[i].x, y: point.y + Geomerty.directions[i].y}
+            let duplicate = map.filter(mapped => mapped.x == newPoint.x && mapped.y == newPoint.y)
+            if (duplicate.length == 0)
+            {
+                unRan.push(newPoint)
+                map.push(newPoint)
+                if (map.length == max)
+                {
+                        return
+                }
+            }
+        }
+        
+
+
+
+    }
+
     static GetRing(radius: number, maxPoint: number, cornerStart: boolean)
     {
         let points = [] as Point[]
@@ -252,4 +336,20 @@ export default class Mapper{
         return {locations, radius};
     }
 
+
+    static refresh(transformedMons: HexInfo[], graphics: GraphicsInfo) {
+        let mons = transformedMons.map(m => m.location.index)
+        
+        let { locations, radius } = Mapper.GetLocations(mons, graphics.border, window.innerWidth - 2 * graphics.border, graphics.border, window.innerHeight - 2 * graphics.border)
+        
+        graphics.hexRadius = radius
+
+        locations.forEach(newLoc => {
+            let mon = transformedMons.find(mon => mon.location.index == newLoc.index)
+            if (mon == null) {
+                return;
+            }
+            mon.location.coordinates = newLoc.coordinates;
+        })
+    }
 }
