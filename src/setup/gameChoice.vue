@@ -104,8 +104,6 @@ export default defineComponent({
             this.SeedCheck();
         },
         SeedCheck() {
-            console.log(this.settings.trackerSettings)
-            console.log(Random.CheckSeed(this.settings.trackerSettings))
             this.seedValid = Random.CheckSeed(this.settings.trackerSettings);
         }
     }
