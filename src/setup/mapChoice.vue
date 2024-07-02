@@ -228,7 +228,6 @@ export default defineComponent({
 
 <style scoped>
 div.parent {
-    width: 100%;
     min-height: 85vh;
     padding-top: 5vh;
     padding-left: 5vw;
