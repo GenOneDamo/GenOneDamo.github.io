@@ -26,8 +26,8 @@ export default defineComponent({
 
             let monMap = [] as {dex: number, location: LocationInfo}[]
 
-            if (this.settings.map.seed != null) {
-                let random = new RandomNumbeGenerator(this.settings.map.seed);
+            if (this.settings.seed != null) {
+                let random = new RandomNumbeGenerator(this.settings.seed);
                 let orders = random.Shuffle(this.includedMons.length);
                 var counter = 0;
                 for (let i=0; i< this.includedMons.length; i++)
@@ -73,6 +73,9 @@ export default defineComponent({
                     }
                     else{
                         Mapper.refresh(this.transformedMons, this.settings.graphics)
+                        
+                        this.$emit('setup-complete')
+                        return;
                     }
                 }
             }
@@ -101,11 +104,6 @@ export default defineComponent({
             this.frame = SettingsFrames.Mons
 
             await this.EnsureLoaded("monChoice")
-
-            while (this.$refs.monChoice == null) {
-
-                console.log(this.$refs.monChoice)
-            }
 
             this.includedMons = (this.$refs.monChoice as any).StringToMons()
 
@@ -201,7 +199,7 @@ export default defineComponent({
                 fudge: 1.4,
                 imageType: "gen5",
                 hexRadius: 1,
-                colors: []
+                colors: ['#ffffff', '#0000ff', '#ff0000', '#00ff00']
             },
             map: {
                 type: "hexCutEdge",
@@ -211,7 +209,7 @@ export default defineComponent({
                 seed: null
             },
             seed: RandomNumbeGenerator.NewSeedString(),
-            trackerType: "",
+            trackerType: "basic",
             trackerSettings: null
         }
     }

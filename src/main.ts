@@ -7,6 +7,7 @@ import Searcher from './components/searcher.vue'
 
 import Adjacent from './trackers/adjacent.vue'
 import Domino from './trackers/domino.vue'
+import Connect4Online from './trackers/connect4Online.vue'
 
 import Setup from './setup/setup.vue'
 import MonChoice from './setup/monChoice.vue'
@@ -20,6 +21,7 @@ app.component('searcher', Searcher)
 app.component('setup', Setup)
 app.component('adjacent', Adjacent)
 app.component('domino', Domino)
+app.component('connect4Online', Connect4Online)
 app.component('monChoice', MonChoice)
 app.component('gameChoice', GameChoice)
 app.component('mapChoice', MapChoice)

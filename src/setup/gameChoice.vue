@@ -1,9 +1,10 @@
 <script lang="ts">
 import basicTracker from './../trackers/basicTracker'
 import adjacentTracker from './../trackers/adjacentTracker'
-import connect4Tracker from './../trackers/connect4Tracker'
+import connect4TrackerOnline from './../trackers/connect4TrackerOnline'
+import connect4TrackerOffline from './../trackers/connect4TrackerOffline'
 import dominoTracker from './../trackers/dominoTracker'
-import { defineComponent, inject, type PropType } from 'vue'
+import { defineComponent, inject } from 'vue'
 import type { Settings, InfoSettings } from './../Types'
 import type { PlayStyle } from './../Types'
 import Random from './../utils/randomNumbeGenerator'
@@ -38,7 +39,11 @@ export default defineComponent({
             }
             else if (game == "connect4") {
                 this.settings.graphics.colors = ['#ffffff', '#ff0000', '#0000ff']
-                this.settings.trackerSettings = Random.NewSeedString();
+                this.settings.trackerSettings = {
+                    online: false,
+                    seed: Random.NewSeedString(),
+                    newGame: true,
+                    code: null};
                 this.SeedCheck();
             }
             else if (game == "domino") {
@@ -76,9 +81,38 @@ export default defineComponent({
             this.$emit('complete');
         },
         setGameConnect4() {
-            this.playStyle = new connect4Tracker(this.settings.trackerSettings);
+            if (this.settings.trackerSettings.online)
+            {
+                this.playStyle = new connect4TrackerOnline(this.settings.trackerSettings.seed, this.settings.trackerSettings.newGame, this.settings.trackerSettings.code);    
+                if (this.settings.trackerSettings.newGame)
+                {
+                    setTimeout( () => {
+                        this.setConnect4OnlineDetails();
+                        }, 1000);
+                }
+            }
+            else
+            {
+                this.playStyle = new connect4TrackerOffline(this.settings.trackerSettings.seed);    
+            }
+
             this.$emit('complete');
         },
+
+        setConnect4OnlineDetails(){
+            let code = (this.playStyle as connect4TrackerOnline).communicator.code;
+            if (code == null || code == "")
+            {
+                setTimeout( () => {
+                        this.setConnect4OnlineDetails();
+                        }, 200);
+            }
+            else {
+                this.settings.trackerSettings.newGame = false
+                this.settings.trackerSettings.code = code
+            }
+        },
+
         setGameDomino() {
             this.playStyle = new dominoTracker(this.settings.trackerSettings);
             this.$emit('complete');
@@ -100,11 +134,11 @@ export default defineComponent({
             this.settings.graphics.colors.push(color)
         },
         RefreshSeed() {
-            this.settings.trackerSettings = Random.NewSeedString();
+            this.settings.trackerSettings.seed = Random.NewSeedString();
             this.SeedCheck();
         },
         SeedCheck() {
-            this.seedValid = Random.CheckSeed(this.settings.trackerSettings);
+            this.seedValid = Random.CheckSeed(this.settings.trackerSettings.seed);
         }
     }
 })
@@ -182,7 +216,6 @@ export default defineComponent({
             </div>
             <br>
 
-
             <input type="checkbox" id="showStats" v-model="settings.trackerSettings.showStats">
             <label for="showStats">Show Statistics</label>
 
@@ -240,23 +273,48 @@ export default defineComponent({
                 <label for="connectBace">Bace Color</label>
             </div>
 
-            <div class="colorSelect">
+            <br>
+            <label for="connect4Seed">RNG seed: </label>
+            <input id="connect4Seed" v-model="settings.trackerSettings.seed" @change="SeedCheck()" size=40 />
+            <br>
+            <button @click="RefreshSeed()">New Seed</button>
+            <p v-if="!seedValid">Bad seed</p>
+            <br>
+            <input type="checkbox" id="connectOnline" v-model="settings.trackerSettings.online">
+            <label for="connectOnline">Use online server</label>
+            <div v-if="settings.trackerSettings.online">
+                <br>
+                <input type="checkbox" id="connectNewGame" v-model="settings.trackerSettings.newGame">
+                <label for="connectNewGame">New Game</label>
+                <div v-if="!settings.trackerSettings.newGame">
+                    <input id="connectGameCode" v-model="settings.trackerSettings.code">
+                    <label for="connectGameCode">Room Code</label>
+                </div>
+            </div>
+            <br>
+
+            <div class="colorSelect" v-if="!settings.trackerSettings.online">
                 <input type="color" id="connectP1" @change="UpdateColor(1, ($event.target as HTMLInputElement).value)"
                     :value=settings.graphics.colors[1]>
                 <label for="connectP1">Player 1 Color</label>
             </div>
 
-            <div class="colorSelect">
+            <div class="colorSelect" v-if="!settings.trackerSettings.online">
                 <input type="color" id="connectP2" @change="UpdateColor(2, ($event.target as HTMLInputElement).value)"
                     :value=settings.graphics.colors[2]>
                 <label for="connectP2">Player 2 Color</label>
             </div>
-            <br>
-            <label for="connect4Seed">RNG seed: </label>
-            <input id="connect4Seed" v-model="settings.trackerSettings" @change="SeedCheck()" size=40 />
-            <br>
-            <button @click="RefreshSeed()">New Seed</button>
-            <p v-if="!seedValid">Bad seed</p>
+
+            <div class="multiSelect"  v-if="settings.trackerSettings.online">
+                <h1>Players</h1>
+                <div class="colorSelect" v-for="(colorChoice, index) in settings.graphics.colors.slice(1)">
+                    <input :id="'adjacentColor' + index" type="color"
+                        @change="UpdateColor(index + 1, ($event.target as HTMLInputElement).value)" :value=colorChoice>
+                    <label :for="'adjacentColor' + index">Player {{ index + 1 }}</label>
+                    <button @click="RemoveColor(index + 1)">Delete</button>
+                </div>
+                <button class="add" @click="AddColor()">Add</button>
+            </div>
             <br>
             <button @click="setGameConnect4()">Confirm</button>
         </div>

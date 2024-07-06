@@ -6,7 +6,7 @@ export default defineComponent({
   data() {
     return {
       transformedMons: inject('transformedMons') as HexInfo[],
-      searchString: inject('searchString') as string
+      searchString: ""
     };
   },
   methods:{

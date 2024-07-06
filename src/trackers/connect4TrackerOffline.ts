@@ -1,10 +1,9 @@
 import type {HexInfo, PlayStyle} from '../Types'
 import Random from '../utils/randomNumbeGenerator'
+import connect4TrackerBase from './../trackers/connect4TrackerBase'
 
+export default class connect4Online extends connect4TrackerBase{
 
-export default class connect4 implements PlayStyle{
-
-    name = "connect4";
     random: Random
     timerRunning: boolean;
     queue: {color: number, hex: HexInfo | null, hexes: HexInfo[]}[];
@@ -12,6 +11,7 @@ export default class connect4 implements PlayStyle{
 
     constructor (seed: string)
     {
+        super();
         this.random = new Random(seed);
         this.timerRunning = false;
         this.queue = [];

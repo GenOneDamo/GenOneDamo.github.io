@@ -1,15 +1,13 @@
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
 import { names } from './../utils/monData'
-import type { Settings } from './../Types'
+    import type { Settings } from './../Types'
 
 export default defineComponent({
     data() {
         return {
-            settings: inject('settings') as Settings,
+            settings: inject('settings') as Settings
         };
-    },
-    props: {
     },
     methods: {
         NamesFromMonString() {
@@ -74,7 +72,7 @@ export default defineComponent({
             if (mons.length > 0) {
                 this.$emit('complete', mons);
             }
-        },
+        }
     }
 })
 </script>

@@ -13,6 +13,7 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "@aspnet/signalr": "^1.0.27",
     "vue": "^3.4.21"
   },
   "devDependencies": {

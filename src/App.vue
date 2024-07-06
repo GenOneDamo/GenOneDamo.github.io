@@ -3,7 +3,7 @@ import { defineComponent, inject, } from 'vue'
 import { HexInfo } from './Types'
 import type { Settings, PlayStyle } from './Types'
 import Mapper from './utils/mapper'
-import connect4Tracker from './trackers/connect4Tracker'
+import connect4TrackerBase from './trackers/connect4TrackerBase'
 import dominoTracker from './trackers/dominoTracker'
 
 export default defineComponent({
@@ -12,7 +12,8 @@ export default defineComponent({
       transformedMons: inject('transformedMons') as HexInfo[],
       settings: inject('settings') as Settings,
       playStyle: inject('playStyle') as PlayStyle,
-      setupComplete: false
+      setupComplete: false,
+      refreshHexes: false
     };
   },
   methods: {
@@ -47,7 +48,7 @@ export default defineComponent({
     },
     Undo() {
       if (this.playStyle.name == 'connect4') {
-        (this.playStyle as connect4Tracker).Undo();
+        (this.playStyle as connect4TrackerBase).Undo();
       }
       else if (this.playStyle.name == 'domino') {
         (this.playStyle as dominoTracker).Undo(this.transformedMons);
@@ -55,7 +56,7 @@ export default defineComponent({
     },
     Moves() {
       if (this.playStyle.name == 'connect4') {
-        let moves = (this.playStyle as connect4Tracker).Moves();
+        let moves = (this.playStyle as connect4TrackerBase).Moves();
         alert(moves);
       }
     },
@@ -67,6 +68,7 @@ export default defineComponent({
   },
   mounted() {
     window.addEventListener("resize", this.refresh);
+    setInterval(() => {this.refreshHexes = ! this.refreshHexes}, 100);
   }
 })
 </script>
@@ -77,7 +79,7 @@ export default defineComponent({
   <searcher v-if="setupComplete" @search-seed="searchSeed" @refresh="refresh" @settings="returnSettingsFile"
     @help="openHelp" @back="backToSettings" @undo="Undo" @moves="Moves" @cheat="Cheat" ref="searcher">
   </searcher>
-  <span v-if=setupComplete :style="'background-color:' + settings.graphics.background">
+  <span v-if=setupComplete :style="'background-color:' + settings.graphics.background" :class="{ refresh: refreshHexes }">
     <hex v-for="mon in transformedMons.sort((a, b) => { return a.location.index.y - b.location.index.y })"
       v-bind:hexInfo="mon"
       :graphicsInfo= settings.graphics
@@ -89,6 +91,7 @@ export default defineComponent({
   </adjacent>
   <domino v-if="setupComplete && playStyle.name == 'domino'" v-bind:playStyle="playStyle">
   </domino>
+  <connect4Online v-if="setupComplete && playStyle.name == 'connect4'" v-bind:playStyle="playStyle"/>
 </template>
 
 <style scoped>
