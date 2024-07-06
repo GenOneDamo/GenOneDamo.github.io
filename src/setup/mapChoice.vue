@@ -173,7 +173,7 @@ export default defineComponent({
 
         <div v-if="settings.map.type == 'donut' || settings.map.type == 'rectangle' || settings.map.type == 'hexCutBottom' || settings.map.type == 'longHex'"
             class="sizeBox">
-            <lable for="edgeLength">Size: </lable>
+            <label for="edgeLength">Size: </label>
             <input type="number" id="edgeLength" v-model="settings.map.size" @change="DrawMap" />
         </div>
 
@@ -204,10 +204,10 @@ export default defineComponent({
         </div>
 
         <input type="checkbox" id="mapflipHorizontal" v-model="settings.map.horizontalFlip" @change="DrawMap">
-        <lable for="mapflipHorizontal">Flip map horizontally</lable>
+        <label for="mapflipHorizontal">Flip map horizontally</label>
         <br>
         <input type="checkbox" id="mapflipVertical" v-model="settings.map.verticalFlip" @change="DrawMap">
-        <lable for="mapflipVertical">Flip map vertically</lable>
+        <label for="mapflipVertical">Flip map vertically</label>
 
         <div>
             <hex v-for="mon in hexes" :hexInfo="mon" :graphicsInfo=mapGraphicsInfo>
