@@ -5,7 +5,8 @@ import type {HexInfo} from './../Types'
 export default defineComponent({
   data() {
     return {
-      transformedMons: inject('transformedMons') as HexInfo[]
+      transformedMons: inject('transformedMons') as HexInfo[],
+      searchString: ""
     };
   },
   methods:{
