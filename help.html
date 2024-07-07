@@ -38,7 +38,7 @@
     <div class="collapsible" onclick="Show('comands')">Comands</div>
     <div id="comands" class="content">
       <p>
-        To run a command simply type the word and press enter. The Pokémon  will filter but you can ignore this. The commands that you can run are:
+        To run a command simply type the word and press enter. The Pokémon will filter but you can ignore this. The commands that you can run are:
       </p>
       <h3>seed</h3>
       <p>
@@ -59,6 +59,9 @@
       <h3>refresh</h3>
       <p>
         This command should not be needed, but may by useful for some old browsers. This will cause the tracker to be redrawn after resizing the window. This should happen automatically though.
+      </p>
+      <p>
+        Also be awear that some games have their own custom commands. They can be used just the same as other ones.
       </p>
     </div>
     
@@ -100,20 +103,24 @@
     <div class="collapsible" onclick="Show('connect4')">Connect 4</div>
     <div id="connect4" class="content">
       <p>
-        This mode is a mixture of Pachinko and Connect 4. It must be played by two players (or two teams, etc.), which will make their moves using the left and right clicks respectively. When a click is made the Pokémon will bounce down the tracker until it reaches the bottom.
-      </p>
-      <p>
-        The Pokémon can take a while to fall, so if you click a second, while the first is still falling it will wait until the first has fallen to start falling itself. All clicks to already selected Pokémon will be ignored.
-      </p>
-      <p>  
-        It can be played on two different computers at once, as long as the same moves are made in the same order. There is another RNG seed in the tracker type setup to ensure they fall the same way on any machine.
-      </p>
-      <p>  
-        In the case of a mistake holding the shift key and pressing Backspace or Delete. This will undo the last move made. There is also the custom command "moves" that can be used to check the list of moves that have been made. This can be useful to ensure the moves were made in the same order on both machines.
-      </p>
-      <p>  
-        Also note that the tracker will not stop when 4 in a row has been reached, it will allow you to continue as long as you would like to so you can play any variation you would like too.
-      </p>
+            This mode is a mixture of Pachinko and Connect 4. There are 2 modes that it can be played in, online and offline. The online mode is not recommended at this stage, the server is a free server and has limits. If you connect then it should work, but I do not make that promise.
+        </p>
+        <p>
+          Offline mode must be played by two players (or two teams, etc.), which will make their moves using the left and right clicks respectively. When a click is made the Pokémon will bounce down the tracker until it reaches the bottom. This can be played on two different computers as once, as long as the same moves are made in the same order. There is another RNG seed in the tracker type setup to ensure they fall the same way on any machine.
+           </p>
+           <p>
+            Playing in Online mode will allow you to have as many players as you want. The order in which players load the settings will determine their player number. In this mode the right click does nothing and moves must be made with the left click.
+           </p>
+           <p>
+            The Pokémon can take a while to fall, so if you click a second, while the first is still falling it will wait until the first has fallen to start falling itself. All clicks to already selected Pokémon will be ignored.
+           </p>
+           <p> 
+            In the case of a mistake holding the shift key and pressing Backspace or Delete. This will undo the last move made (by any player). There is also the custom command "moves" that can be used to check the list of moves that have been made. This can be useful to ensure the moves were made in the same order on both machines in offline mode, or just to check if the right moves were made in online.
+           </p>
+           <p> 
+            Also note that the tracker will not stop when 4 in a row has been reached, it will allow you to continue as long as you would like to so you can play any variation you would like too.
+           </p>
+        
     </div>
 
     <div class="collapsible" onclick="Show('dommino')">Domminos</div>
