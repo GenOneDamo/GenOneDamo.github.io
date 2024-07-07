@@ -73,7 +73,6 @@ export default defineComponent({
                     }
                     else{
                         Mapper.refresh(this.transformedMons, this.settings.graphics)
-                        
                         this.$emit('setup-complete')
                         return;
                     }
