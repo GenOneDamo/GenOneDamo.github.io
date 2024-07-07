@@ -16,10 +16,9 @@ export default class Connect4Communicator{
 
         this.connection.start().then( () => { 
             if (host){
-            this.NewGame()
+                this.NewGame()
             }
             else{
-                this.code = room;
                 this.JoinGame(room);
             }
         })
@@ -36,7 +35,7 @@ export default class Connect4Communicator{
     }
 
     JoinGame(code: string) {
-        this.connection!.invoke("JoinGame", code);
+        this.connection!.invoke("JoinGame", code).then(() => {this.code = code});
     }
 
     MakeMove(move: number) {

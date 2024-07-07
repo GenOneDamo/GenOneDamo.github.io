@@ -14,7 +14,8 @@ export default defineComponent({
         return {
             playStyle: inject('playStyle') as PlayStyle,
             settings: inject('settings') as Settings,
-            seedValid: false
+            seedValid: false,
+            loading: false
         };
     },
     props: {
@@ -84,12 +85,13 @@ export default defineComponent({
             if (this.settings.trackerSettings.online)
             {
                 this.playStyle = new connect4TrackerOnline(this.settings.trackerSettings.seed, this.settings.trackerSettings.newGame, this.settings.trackerSettings.code);    
-                if (this.settings.trackerSettings.newGame)
-                {
-                    setTimeout( () => {
-                        this.setConnect4OnlineDetails();
-                        }, 1000);
-                }
+              
+                setTimeout( () => {
+                    this.setConnect4OnlineDetails();
+                }, 1000);
+                this.loading = true;
+                return;
+                
             }
             else
             {
@@ -108,8 +110,13 @@ export default defineComponent({
                         }, 200);
             }
             else {
-                this.settings.trackerSettings.newGame = false
-                this.settings.trackerSettings.code = code
+                if (this.settings.trackerSettings.newGame)
+                {
+                    this.settings.trackerSettings.newGame = false
+                    this.settings.trackerSettings.code = code
+                }
+                this.loading = false;
+                this.$emit('complete');
             }
         },
 
@@ -145,7 +152,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <div class="parent">
+    <div class="parent" v-if="!loading">
         <h1>Select tracking type</h1>
         <br>
         <span>
@@ -395,6 +402,10 @@ export default defineComponent({
 
             <button @click="setGameDomino()">Confirm</button>
         </div>
+    </div>
+    <div class="parent" v-if="loading">
+        <h1>Connecting to online server</h1>
+        <p>Be aware that using the server may result in crashes. I make no promises about how well it will work.</p>
     </div>
 </template>
 
