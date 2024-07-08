@@ -5,6 +5,7 @@ import type { Settings, PlayStyle } from './Types'
 import Mapper from './utils/mapper'
 import connect4TrackerBase from './trackers/connect4TrackerBase'
 import dominoTracker from './trackers/dominoTracker'
+import adjacentTracker from './trackers/adjacentTracker'
 
 export default defineComponent({
   data() {
@@ -46,6 +47,12 @@ export default defineComponent({
     backToSettings() {
       this.setupComplete = false;
     },
+    Infect()
+    {
+      if (this.playStyle.name == 'adjacent') {
+        (this.playStyle as adjacentTracker).Infect();
+      }
+    },
     Undo() {
       if (this.playStyle.name == 'connect4') {
         (this.playStyle as connect4TrackerBase).Undo();
@@ -77,7 +84,7 @@ export default defineComponent({
   <setup  v-if="!setupComplete" @setup-complete="SetupMons()">
   </setup>
   <searcher v-if="setupComplete" @search-seed="searchSeed" @refresh="refresh" @settings="returnSettingsFile"
-    @help="openHelp" @back="backToSettings" @undo="Undo" @moves="Moves" @cheat="Cheat" ref="searcher">
+    @help="openHelp" @back="backToSettings" @undo="Undo" @moves="Moves" @cheat="Cheat" @infect="Infect" ref="searcher">
   </searcher>
   <span v-if=setupComplete :style="'background-color:' + settings.graphics.background" :class="{ refresh: refreshHexes }">
     <hex v-for="mon in transformedMons.sort((a, b) => { return a.location.index.y - b.location.index.y })"

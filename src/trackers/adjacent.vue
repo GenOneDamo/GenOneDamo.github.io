@@ -1,11 +1,13 @@
 <script lang="ts">
-import {defineComponent} from 'vue'
+import {defineComponent, inject} from 'vue'
 import type {PropType} from 'vue'
 import adjacentTracker from './../trackers/adjacentTracker'
+import { HexInfo } from './../Types'
 
 export default defineComponent({
   data() {
     return {
+      transformedMons: inject('transformedMons') as HexInfo[],
     };
   },
   props: {
@@ -18,6 +20,9 @@ export default defineComponent({
     {
         return this.playStyle.zombieSettings.statsLocation.split(',')[0] == 'top' ? '0' : '100'
     }
+  },
+  mounted() {
+    this.playStyle.hexes = this.transformedMons;
   }
 })
 </script>

@@ -77,6 +77,10 @@ export default defineComponent({
         {
             this.$emit('cheat');
         }
+        else if (this.searchString == "infect")
+        {
+            this.$emit('infect');
+        }
     },
     resetHidden()
     {

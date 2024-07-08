@@ -9,9 +9,11 @@ export default class adjacentTracker implements PlayStyle{
     name = "adjacent";
     zombieStats: ZombieStats;
     zombieSettings: InfoSettings;
+    hexes: HexInfo[];
 
     constructor (maxBlocks: number, size: number, settings: InfoSettings)
     {
+        this.hexes = [];
         this.maxBlocks = maxBlocks;
         this.currentBlocks = [];
         for (let i = 0; i< maxBlocks; i++)
@@ -214,6 +216,104 @@ export default class adjacentTracker implements PlayStyle{
             }
         }
     }
+
+    Infect() {
+        for (let i = 0; i < this.maxBlocks; i++)
+        {
+            if (this.currentBlocks[i])
+            {
+                this.RunInfect(i);
+            }
+        }
+
+        for (let i = 0; i < this.maxBlocks - 1; i++)
+        {
+            if (this.currentBlocks[i])
+            {
+                this.CombineBreakout(i);
+            }
+        }
+    
+        this.zombieStats.infected = 0;
+        this.zombieStats.susceptible = 0;
+        this.zombieStats.safe = 0;
+
+        this.hexes.forEach((hex) => {
+            if (hex.color >= 3)
+            {
+                this.zombieStats.infected++;
+            }
+            else
+            {
+                let neigbours = Geomerty.GetAdjacentHexes(hex,this.hexes)
+                let infected = neigbours.find(x => x.color >= 3)
+                if (infected != null)
+                {
+                    if (hex.color == 0)
+                    {
+                        hex.color = 1;
+                    }
+                    this.zombieStats.susceptible++;
+                }
+                else
+                {
+                    this.zombieStats.safe++;
+                }
+            }
+        });
+
+    }
+
+    RunInfect(color: number)
+    {
+        let block = this.hexes.filter((hex) => hex.color == color + 3);
+
+        let surrounds = [] as HexInfo[];
+        block.forEach((hex) => {
+            let neighbours = Geomerty.GetAdjacentHexes(hex,this.hexes);
+            neighbours.forEach((neighbour) => {
+
+                let found = surrounds.find(x => x.dexNumber == neighbour.dexNumber)
+                if (found == null)
+                {
+                    found = block.find(x => x.dexNumber == neighbour.dexNumber)
+                }
+
+                if (found == null)
+                {
+                    surrounds.push(neighbour);
+                }
+            });
+        });
+
+        surrounds.forEach((hex) => {
+            hex.color = color+3;
+        })
+    }
+
+    CombineBreakout(color: number)
+    {
+        let block = this.hexes.filter((hex) => hex.color == color + 3);
+
+        let surrounds = [] as number[];
+        block.forEach((hex) => {
+            let neighbours = Geomerty.GetAdjacentHexes(hex,this.hexes);
+            neighbours.forEach((neighbour) => {
+
+                if (neighbour.color > color + 3 && !surrounds.includes(neighbour.color))
+                {
+                    surrounds.push(neighbour.color);
+                }
+            });
+        });
+
+        let replacments = this.hexes.filter((hex) => surrounds.includes(hex.color));
+        replacments.forEach((hex) => hex.color = color + 3)
+
+        surrounds.forEach(x => {this.currentBlocks[x-3] = false})
+
+    }
+
 
     rightClick(mon: HexInfo, hexes: HexInfo[]){
         if (mon.color > 2)
