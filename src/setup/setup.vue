@@ -3,7 +3,7 @@ import { names } from './../utils/monData'
 import RandomNumbeGenerator from './../utils/randomNumbeGenerator'
 import Mapper from './../utils/mapper'
 import { defineComponent, inject } from 'vue'
-import { HexInfo, SettingsFrames } from './../Types'
+import { HexInfo, SettingsFrames, TrackerType } from './../Types'
 import type { Point, Settings, LocationInfo } from './../Types'
 
 export default defineComponent({
@@ -208,7 +208,7 @@ export default defineComponent({
                 seed: null
             },
             seed: RandomNumbeGenerator.NewSeedString(),
-            trackerType: "basic",
+            trackerType: TrackerType.Basic,
             trackerSettings: null
         }
     }

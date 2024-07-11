@@ -1,9 +1,10 @@
 import type {HexInfo, InfoSettings, PlayStyle} from '../Types'
+import {TrackerType} from '../Types'
 import {types, typeNames} from '../utils/monData' 
 
 export default class dominoTracker implements PlayStyle{
 
-    name = "domino";
+    name = TrackerType.Domino;
     settings: InfoSettings;
     lastMon: HexInfo | null;
     selections: HexInfo[];

@@ -1,10 +1,11 @@
 import type {HexInfo, PlayStyle} from '../Types'
+import {TrackerType} from '../Types'
 
 
 export default class basicTracker implements PlayStyle{
 
     colorCount: number;
-    name = "basic";
+    name = TrackerType.Basic;
 
     constructor (colorCount: number)
     {

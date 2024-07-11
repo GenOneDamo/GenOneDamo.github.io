@@ -11,7 +11,7 @@ export default class Connect4Communicator{
     constructor(host: boolean, room: string){
         this.movesMade = [];
         this.code = "";
-        this.url = import.meta.env.VITE_SERVER_URL;
+        this.url = import.meta.env.VITE_SERVER_URL + "/connect4Hub";
         this.connection = new signalR.HubConnectionBuilder().withUrl(this.url).build();
 
         this.connection.start().then( () => { 
@@ -26,7 +26,7 @@ export default class Connect4Communicator{
         this.connection.on("MovesMade",  (message: {item1: number, item2: number}[]) => {
             this.movesMade = message.map(x => {return {player: x.item1, move: x.item2}});
         });
-        
+
     }
 
     NewGame() {

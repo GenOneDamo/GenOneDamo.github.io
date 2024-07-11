@@ -1,12 +1,13 @@
 import {HexInfo} from '../Types'
 import type {PlayStyle, ZombieStats, InfoSettings} from '../Types'
+import {TrackerType} from '../Types'
 import Geomerty from '../utils/geometry'
 
 export default class adjacentTracker implements PlayStyle{
 
     maxBlocks: number
     currentBlocks: boolean[]
-    name = "adjacent";
+    name = TrackerType.Adjacent;
     zombieStats: ZombieStats;
     zombieSettings: InfoSettings;
     hexes: HexInfo[];

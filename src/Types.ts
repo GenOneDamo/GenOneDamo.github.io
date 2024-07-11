@@ -19,7 +19,7 @@ export class HexInfo
 }
 
 export interface PlayStyle {
-  name: string;
+  name: TrackerType;
   hexClicked(mon: HexInfo, direction: number, hexes: HexInfo[]): void
 }
 
@@ -53,7 +53,7 @@ export type Settings =
   graphics: GraphicsInfo;
   map: MapSettings;
   seed: string | null;
-  trackerType: string;
+  trackerType: TrackerType;
   trackerSettings: any;
 }
 
@@ -88,4 +88,12 @@ export enum SettingsFrames {
   Game,
   Graphics,
   Finalize
+}
+
+export enum TrackerType{
+  Basic,
+  Adjacent,
+  Connect4,
+  Domino,
+  BattleShips
 }
