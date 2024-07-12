@@ -68,7 +68,7 @@ export default defineComponent({
       margin: 10px;
       padding: 10px;
       z-index: 4;
-      position: absolute;
+      position: static;
       text-align: center;
       }
 
